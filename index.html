@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Stream</title>
+    <link rel="stylesheet" href="styleBF55AA7243.css">
+</head>
+
+<body>
+    <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
+    <script src="indexCCEC51678E.js"></script>
+    <div id="lobby">
+        <h1>Sick Stream 1.6</h1>
+        <div class="container">
+            <div class="card">
+                <div class="card-container">
+                    <h4><b>Mr. Streamer</b></h4>
+                    <div class="button" onclick="onStreamerClicked()">Click Here</div>
+
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-container">
+                    <h4><b>Mr. Viewer</b></h4>
+                    <div class="button" onclick="onViewerClicked()">Click Here</div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="tutorial">
+        <div class="container">
+            <div class="card">
+                <div class="card-container">
+                    <div id="streamer-more-info" class="more-info">
+                        <h3><b>Paste the code your viewer will give you</b></h4>
+                            <div class="centered">
+                                <input id="partnerId" placeholder="Partner-Id" type="text" />
+                                <button onclick="onCallPartner()">Stream</button>
+                            </div>
+                    </div>
+                    <div id="viewer-more-info" class="more-info">
+                        <h3><b>Paste this code to your streamer</b></h4>
+                            <div class="centered">
+                                <input id="myId" type="text" readonly />
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="stream">
+        <video id="remoteVideo" autoplay controls></video>
+    </div>
+</body>
+
+</html>
