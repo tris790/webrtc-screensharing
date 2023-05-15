@@ -1,21 +1,5 @@
-let peer = new Peer({
-    iceServers: [
-        { url: "stun.l.google.com:19302" },
-        { url: "stun1.l.google.com:19302" },
-        { url: "stun2.l.google.com:19302" },
-        { url: "stun3.l.google.com:19302" },
-        { url: "stun4.l.google.com:19302" },
-        { url: "stun.ekiga.net" },
-        { url: "stun.ideasip.com" },
-        { url: "stun.rixtelecom.se" },
-        { url: "stun.schlund.de" },
-        { url: "stun.stunprotocol.org:3478" },
-        { url: "stun.voiparound.com" },
-        { url: "stun.voipbuster.com" },
-        { url: "stun.voipstunt.com" },
-        { url: "stun.voxgratia.org" },
-    ],
-});
+let peer = new Peer();
+let getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
 let mediaConnection;
 const options = {
@@ -37,6 +21,7 @@ peer.on("call", async function (call) {
     console.log("Getting a call from:", call);
     // Answer the call, providing our mediaStream
     mediaConnection = call;
+    call.answer(stream);
     // const myStream = await navigator.mediaDevices.getDisplayMedia(options);
     mediaConnection.answer();
 
@@ -53,13 +38,33 @@ peer.on("call", async function (call) {
     });
 });
 
+peer.on('call', function (call) {
+    console.log("Getting a call from:", call);
+    mediaConnection = call;
+
+    call.answer(stream); // Answer the call with an A/V stream.
+
+    call.on('stream', function (stream) {
+        console.log("Stream event:", stream);
+        window.peer_stream = stream;
+
+        let video = document.getElementById("remoteVideo");
+        video.srcObject = stream;
+        video.onloadedmetadata = function (e) {
+            video.play();
+        };
+
+        onStreamStart();
+    });
+});
+
 async function call(id) {
     console.log("Calling:", id);
-    const mediaStream = await navigator.mediaDevices.getDisplayMedia(options);
-    mediaConnection = peer.call(id, mediaStream);
-
-    mediaConnection.on("stream", function (stream) {
-        return;
+    getUserMedia({ video: true, audio: true }, function (stream) {
+        let call = peer.call(id, stream);
+        call.on('stream', function (remoteStream) { });
+    }, function (err) {
+        console.log('Failed to get local stream', err);
     });
 }
 
