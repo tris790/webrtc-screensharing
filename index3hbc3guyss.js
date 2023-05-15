@@ -17,26 +17,6 @@ peer.on("open", () => {
     document.getElementById("myId").value = peer.id;
 });
 
-peer.on("call", async function (call) {
-    console.log("Getting a call from:", call);
-    // Answer the call, providing our mediaStream
-    mediaConnection = call;
-    call.answer(stream);
-    // const myStream = await navigator.mediaDevices.getDisplayMedia(options);
-    mediaConnection.answer();
-
-    mediaConnection.on("stream", function (stream) {
-        console.log("Stream event:", stream);
-        window.peer_stream = stream;
-        let video = document.getElementById("remoteVideo");
-        video.srcObject = stream;
-        video.onloadedmetadata = function (e) {
-            video.play();
-        };
-
-        onStreamStart();
-    });
-});
 
 peer.on('call', function (call) {
     console.log("Getting a call from:", call);
@@ -60,12 +40,15 @@ peer.on('call', function (call) {
 
 async function call(id) {
     console.log("Calling:", id);
-    getUserMedia({ video: true, audio: true }, function (stream) {
+    try {
+        let stream = await navigator.mediaDevices.getUserMedia(options);
+
         let call = peer.call(id, stream);
         call.on('stream', function (remoteStream) { });
-    }, function (err) {
-        console.log('Failed to get local stream', err);
-    });
+
+    } catch (error) {
+        console.log("On call error:", error);
+    }
 }
 
 function onCallPartner() {
