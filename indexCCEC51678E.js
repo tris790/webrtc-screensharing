@@ -19,14 +19,19 @@ let peer = new Peer({
 
 let mediaConnection;
 const options = {
+    logicalSurface: !0,
+    cursor: "motion",
     video: {
-        cursor: "always",
+        width: 1280,
+        height: 720,
+        resizeMode: "crop-and-scale"
     },
     audio: {
-        echoCancellation: true,
-        noiseSuppression: true,
-        sampleRate: 44100,
-    },
+        autoGainControl: !1,
+        channelCount: 1,
+        echoCancellation: !1,
+        noiseSuppression: !1
+    }
 };
 
 peer.on("open", () => {
