@@ -19,8 +19,7 @@ let peer = new Peer({
 
 let mediaConnection;
 const options = {
-    logicalSurface: !0,
-    cursor: "motion",
+    cursor: "always",
     video: {},
     audio: {
         autoGainControl: !1,
