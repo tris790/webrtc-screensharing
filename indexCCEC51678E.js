@@ -21,11 +21,7 @@ let mediaConnection;
 const options = {
     logicalSurface: !0,
     cursor: "motion",
-    video: {
-        width: 1280,
-        height: 720,
-        resizeMode: "crop-and-scale"
-    },
+    video: {},
     audio: {
         autoGainControl: !1,
         channelCount: 1,
